@@ -125,6 +125,13 @@ public class QuestionAnswer
             queryResult = String.join(", ", callR(q, false));
             return "I think you would like " + queryResult + ".";
 
+        case Meaning.WHAT_ABOUT:
+            q = "EMPTY QUERY";
+
+            queryResult = String.join(", ", callR(q, false));
+            return m_name + ": " + queryResult;
+
+
         case Meaning.WHAT_RATING:
             q = 
                 "SELECT `rating`.`averageRating`" +
