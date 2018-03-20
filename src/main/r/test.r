@@ -1,34 +1,32 @@
-library(RMySQL) # Include Rserve Library
-library(base64enc) # Include base64enc Library
-library(png) # Include png Library
+library(RMySQL)
+library(base64enc)
+library(png)
 
-#Pie Chart Function
 myChart = function(a, b){
-    slices <- c(a, b)  # Create slices with the values of parameters
-    lbls <- c("Actor", "Actress") # Labels
-    pct <- round(slices/sum(slices)*100) # Formula for the slices
+    slices <- c(a, b) 
+    lbls <- c("Actor", "Actress")
+    pct <- round(slices/sum(slices)*100)
     lbls <- paste(lbls, pct) # add percents to labels 
     lbls <- paste(lbls,"%",sep="") # ad % to labels 
 
-    png(file="./src/main/r/test.png",width=480,height=480) # Save png
-    pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Differences between Actors and Actresses") # Create pie chart
+    png(file="./src/main/r/test.png",width=480,height=480)
+    pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Differences between Actors and Actresses") 
 
     dev.off()
 
-    img <- readPNG("./src/main/r/test.png",TRUE) # Read PNG 
-    img64 <- dataURI(writePNG(img,raw()), "image/png") # Encode to URI
-    return("IMAGE") 
+    img <- readPNG("./src/main/r/test.png",TRUE)
+    img64 <- dataURI(writePNG(img,raw()), "image/png")
+    return("IMAGE")
 }
 
-#Query function
 meaningToQ = function(q,r) {
-    mydb <- dbConnect(MySQL(), user="u334588916_baap", password="wz;J^MO66uVn|IV3hd", dbname="u334588916_bmov", host="sql40.main-hosting.eu") # DB connection
+    mydb <- dbConnect(MySQL(), user="u334588916_baap", password="wz;J^MO66uVn|IV3hd", dbname="u334588916_bmov", host="sql40.main-hosting.eu")
 
-    query = dbSendQuery(mydb, q) #Send Query
+    query = dbSendQuery(mydb, q)
     if(r==FALSE){
-        data = fetch(query, n=-1) #Get data for non-R question
+        data = fetch(query, n=-1)
     }else{
-        result = fetch(query,n=-1) #Get data for R question
+        result = fetch(query,n=-1)
         x = result[1,1]
         y = result[2,1]
         data = myChart(x,y)

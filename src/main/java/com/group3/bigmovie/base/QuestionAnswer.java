@@ -30,6 +30,18 @@ public class QuestionAnswer
 
         switch (type)
         {
+        case Meaning.TEST:
+            return "I am Henk.";
+
+        case Meaning.HELLO:
+            return "Hello there.";
+
+        case Meaning.WHY_HERE:
+            return "That's... why i'm here";
+
+        case Meaning.HELP:
+            return Meaning.STR_HELP;
+
         case Meaning.AGE:
             q = "SELECT `birth_year` FROM `name` WHERE `primary_name` = " + m_name;
 
@@ -163,6 +175,25 @@ public class QuestionAnswer
         {
             return Meaning.AGE;
         }
+        else if (m_meaning.equalsIgnoreCase("test"))
+        {
+            return Meaning.TEST;
+        }
+        else if (m_meaning.equalsIgnoreCase("can help") ||
+            m_meaning.equalsIgnoreCase("help"))
+        {
+            return Meaning.HELP;
+        }
+        else if (m_meaning.equalsIgnoreCase("hello") ||
+            m_meaning.equalsIgnoreCase("hi"))
+        {
+            return Meaning.HELLO;
+        }
+        else if (m_meaning.equalsIgnoreCase("can answer question") ||
+            m_meaning.equalsIgnoreCase("can answer questions"))
+        {
+            return Meaning.WHY_HERE;
+        }
         else if (m_meaning.equalsIgnoreCase("how many directed"))
         {
             return Meaning.AMOUNT_DIRECTED;
@@ -197,10 +228,6 @@ public class QuestionAnswer
             m_meaning.equalsIgnoreCase("describe"))
         {
             return Meaning.WHAT_ABOUT;
-        }
-        else if (m_meaning.equalsIgnoreCase("recommend"))
-        {
-            return Meaning.RECOMMEND;
         }
         else if (m_meaning.equalsIgnoreCase("what rating") || m_meaning.equalsIgnoreCase("how many stars"))
         {

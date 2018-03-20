@@ -16,4 +16,27 @@ public final class Meaning
     public static final int ACTOR_TO_ACTRESS = 10;
     public static final int ABOVE_AGE = 11;
     public static final int WHAT_RATING = 12;
+    public static final int TEST = 13;
+    public static final int HELLO = 14;
+    public static final int WHY_HERE = 15;
+    public static final int HELP = 16;
+
+    public static final String STR_HELP = 
+        "```Command list:\n" +
+        "-----------------------------------------------------------------------\n" +
+        "Can you help me? / help\n" +
+        "How old is <actor>?\n" +
+        "How many movies has <director> directed?\n" +
+        "How many movies has <actor> played in?" +
+        "When was <movie> released?\n" +
+        "Where was <movie> [recorded/filmed]?\n" +
+        "What was the budget of <movie>?\n" +
+        "Who [plays/played] in <movie>?\n" +
+        "Who wrote <movie>?\n" +
+        "What is <movie> about? / Describe <movie>\n" +
+        "What rating does <movie> have?\n" +
+        "What is the ratio of actors to actresses?\n" +
+        "Recommend me a movie\n" +
+        "```"
+        ;
 }
