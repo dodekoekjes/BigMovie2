@@ -23,10 +23,10 @@ public class CommandTranslator
         // Words that carry a meaning.
         m_meanings = new String[]
         {
-            "how", "test", "what", "where", "when", "many", "old", "played", "filmed", "recorded", "describe",
-            "budget", "release", "released", "plays", "wrote", "about", "recommend", "directed", "who",
-            "rating", "stars", "ratio", "above", "hello", "hi", "can", "answer", "questions", "question",
-            "help", "love"
+            "how", "test", "what", "where", "when", "many", "old", "played", "filmed", "recorded", 
+            "describe", "budget", "release", "released", "plays", "wrote", "about", "recommend", 
+            "directed", "who", "rating", "stars", "ratio", "above", "hello", "hi", "can", "answer", 
+            "questions", "question", "help", "love"
         };
 
         // Words that are not important to the interpretation of the question.
