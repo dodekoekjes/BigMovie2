@@ -286,8 +286,7 @@ public class QuestionAnswer
             connection = new RConnection();
 
             Path currentRelativePath = Paths.get("src/main/r/test.r");
-            s = currentRelativePath.toAbsolutePath().toString();
-            System.out.println("Current relative path is: " + s);
+            s = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
 
             connection.eval("source('" + s + "')");
             return connection.eval("meaningToQ(" + query + ", " + r + ")").asStrings();

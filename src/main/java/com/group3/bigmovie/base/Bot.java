@@ -24,7 +24,7 @@ public final class Bot extends ListenerAdapter
       public Bot(){
             //get rivescript resources
             Path currentRelativePath = Paths.get("src/main/resources/rivescript");
-            String path = currentRelativePath.toAbsolutePath().toString();
+            String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
             System.out.println(path);
             rive.loadDirectory(path);
             rive.sortReplies();
@@ -87,7 +87,8 @@ public final class Bot extends ListenerAdapter
             }
 
             Path currentRelativePath = Paths.get("src/main/r/test.png");
-            String path = currentRelativePath.toAbsolutePath().toString();
+            String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
+            System.out.println(path);
             
             CommandTranslator c = new CommandTranslator(
                   removeFirstMentions(event.getMessage().getContentDisplay()));
