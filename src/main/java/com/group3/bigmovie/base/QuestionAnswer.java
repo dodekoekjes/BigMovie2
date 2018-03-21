@@ -3,6 +3,7 @@ package com.group3.bigmovie.base;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
@@ -174,12 +175,11 @@ public class QuestionAnswer
                 "WHERE `profession` = ‘actress’";
 
             queryResult = String.join(", ", callR(q, true));
-            return "IMAGE";
+            return "IMAGE";            
+            
 
         default:
-            return ":regional_indicator_e::regional_indicator_r::regional_indicator_r::regional_indicator_o::regional_indicator_r:"
-                +
-                "\nNo valid question was provided. ";
+            return "RIVE";
         }
     }
 
