@@ -20,6 +20,8 @@ public final class Meaning
     public static final int HELLO = 14;
     public static final int WHY_HERE = 15;
     public static final int HELP = 16;
+    public static final int WHAT_IS = 17;
+    public static final int WHAT_IS_LOVE = 18;
 
     public static final String STR_HELP = 
         "```Command list:\n" +

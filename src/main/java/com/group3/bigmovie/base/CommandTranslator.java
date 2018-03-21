@@ -26,7 +26,7 @@ public class CommandTranslator
             "how", "test", "what", "where", "when", "many", "old", "played", "filmed", "recorded", "describe",
             "budget", "release", "released", "plays", "wrote", "about", "recommend", "directed", "who",
             "rating", "stars", "ratio", "above", "hello", "hi", "can", "answer", "questions", "question",
-            "help"
+            "help", "love"
         };
 
         // Words that are not important to the interpretation of the question.
@@ -60,6 +60,8 @@ public class CommandTranslator
             word = word.replace("?", "");
             word = word.replace(".", "");
             word = word.replace("!", "");
+            word = word.replace("+", "%2B");
+            word = word.replace("/", "%2F");
 
             if (collectionContains(word, m_meanings))
             {

@@ -7,6 +7,8 @@ import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 
+import okhttp3.internal.http.RetryAndFollowUpInterceptor;
+
 
 public class QuestionAnswer
 {
@@ -153,6 +155,14 @@ public class QuestionAnswer
 
             queryResult = String.join(", ", callR(q, false));
             return queryResult + "actors and actresses are above the age of " + m_name + ".";
+            
+        case Meaning.WHAT_IS:
+            m_name = m_name.replace(" ", "+");
+
+            return "http://lmgtfy.com/?q=" + m_name;
+
+        case Meaning.WHAT_IS_LOVE:
+            return "BABY DON'T HURT ME!\n" + "https://www.youtube.com/watch?v=HEXWRTEbj1I";
 
         case Meaning.ACTOR_TO_ACTRESS:
             q = 
@@ -251,6 +261,14 @@ public class QuestionAnswer
         else if (m_meaning.equalsIgnoreCase("recommend"))
         {
             return Meaning.RECOMMEND;
+        }
+        else if (m_meaning.equalsIgnoreCase("what"))
+        {
+            return Meaning.WHAT_IS;
+        }
+        else if (m_meaning.equalsIgnoreCase("what love"))
+        {
+            return Meaning.WHAT_IS_LOVE;
         }
 
         return -1;
