@@ -14,10 +14,21 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import com.rivescript.*;
 
 
 public final class Bot extends ListenerAdapter
 {
+      RiveScript rive = new RiveScript(Config.utf8());
+
+      public Bot(){
+            //get rivescript resources
+            Path currentRelativePath = Paths.get("src/main/resources/rivescript");
+            String path = currentRelativePath.toAbsolutePath().toString();
+            System.out.println(path);
+            rive.loadDirectory(path);
+            rive.sortReplies();
+      }
       // Only respond if given input returns true.
       private boolean shouldRespondTo(Message message)
       {
@@ -77,14 +88,14 @@ public final class Bot extends ListenerAdapter
 
             Path currentRelativePath = Paths.get("src/main/r/test.png");
             String path = currentRelativePath.toAbsolutePath().toString();
-
+            
             CommandTranslator c = new CommandTranslator(
                   removeFirstMentions(event.getMessage().getContentDisplay()));
             c.setMeaning();
 
             QuestionAnswer q = new QuestionAnswer(c);
             String response = q.answerQuestion();
-
+            
             if (response.equals("IMAGE"))
             {
                   try
@@ -100,9 +111,12 @@ public final class Bot extends ListenerAdapter
                   }
                   catch (IOException e)
                   {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                   }
+            }
+            else if(response.equals("RIVE")){
+                  response = rive.reply(event.getChannel().getId(), removeFirstMentions(event.getMessage().getContentDisplay()));
+                  event.getChannel().sendMessage(response).queue();
             }
             else
             {

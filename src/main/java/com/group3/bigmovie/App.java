@@ -18,6 +18,6 @@ final class App
          .setToken(Settings.BOT_TOKEN)
          .addEventListener(new Bot())
          .buildBlocking();
-
+      
    }
 }
