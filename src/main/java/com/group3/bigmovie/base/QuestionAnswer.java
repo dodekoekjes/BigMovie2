@@ -1,10 +1,11 @@
 package com.group3.bigmovie.base;
 
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.group3.bigmovie.extensions.SearchYT;
+import com.group3.bigmovie.extensions.*;
 
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
@@ -36,8 +37,6 @@ public class QuestionAnswer
         switch (type)
         {
         case Meaning.TEST:
-            SearchYT search = new SearchYT();
-            search.execute();
             return "I am Henk.";
 
         case Meaning.HELLO:
@@ -181,7 +180,9 @@ public class QuestionAnswer
             queryResult = String.join(", ", callR(q, true));
             return "IMAGE";            
             
-
+        case Meaning.SEARCH_YT:
+            return "SEARCH_YT";
+        
         default:
             return "RIVE";
         }
@@ -273,6 +274,9 @@ public class QuestionAnswer
         else if (m_meaning.equalsIgnoreCase("what love"))
         {
             return Meaning.WHAT_IS_LOVE;
+        }
+        else if (m_meaning.contains("search") || m_name.contains("search")){
+            return Meaning.SEARCH_YT;
         }
 
         return -1;

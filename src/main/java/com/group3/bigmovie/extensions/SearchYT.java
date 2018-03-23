@@ -1,31 +1,23 @@
 package com.group3.bigmovie.extensions;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-// import com.google.api.services.samples.youtube.cmdline.Auth;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTube.Search;
 import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
-import com.google.api.services.youtube.model.Thumbnail;
-import com.rivescript.RiveScript;
-import com.rivescript.macro.Subroutine;
-
-import org.apache.http.protocol.HttpRequestExecutor;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
 
 /** 
  * Print a list of videos matching a search term.
@@ -42,33 +34,53 @@ public class SearchYT {//implements Subroutine{
 
     private static final long NUMBER_OF_VIDEOS_RETURNED = 1;
 
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
+    private String query = "";
+    private Iterator<SearchResult> results = null;
+
     /**
      * Define a global instance of a Youtube object, which will be used
      * to make YouTube Data API requests.
      */
-    private static YouTube youtube;
+    private YouTube youtube;
 
     /**
      * Initialize a YouTube object to search for videos on YouTube. Then
      * display the name and thumbnail image of each video in the result set.
-     *
-     * @param args command line args.
-     */
-
-    /*
-     * Prompt the user to enter a query term and return the user-specified term.
-     */
-    public String getInputQuery() throws IOException {
-        String inputQuery = "for honor the great crusade";
-        System.out.print("Please enter a search term: ");
+    */
+    
+    public void setInputQuery(String input) {
+        // System.out.print("Please enter a search term: ");
         // BufferedReader bReader = new BufferedReader(new InputStreamReader(System.in));
-        // inputQuery = bReader.readLine();
+        // input = bReader.readLine();
+        query = input.toLowerCase().trim();
 
-        if (inputQuery.length() < 1) {
-            // Use the string "YouTube Developers Live" as a default.
-            inputQuery = "the sound of silence";
+        if (query.length() < 1 || query == null) {
+            // default query
+            query = "the sound of silence";
         }
-        return inputQuery;
+    }
+    /* 
+     * returns all the youtube video links.
+     * 
+     * @param return List<String>
+     * 
+    */
+    public List<String> getResults() throws NullPointerException{
+        List<String> temp = new ArrayList<String>();
+        while (this.results.hasNext()) {
+
+            SearchResult singleVideo = this.results.next();
+            ResourceId rId = singleVideo.getId();
+
+            // Confirm that the result represents a video. Otherwise, the
+            // item will not contain a video ID.
+            if (rId.getKind().equals("youtube#video")) {
+                temp.add("https://www.youtube.com/watch?v=" + rId.getVideoId());
+            }
+        }
+        return temp;
     }
 
     /*
@@ -98,18 +110,13 @@ public class SearchYT {//implements Subroutine{
             // Confirm that the result represents a video. Otherwise, the
             // item will not contain a video ID.
             if (rId.getKind().equals("youtube#video")) {
-                Thumbnail thumbnail = singleVideo.getSnippet().getThumbnails().getDefault();
-
-                System.out.println(" Video Id" + rId.getVideoId());
+                System.out.println(" Video Id: " + rId.getVideoId());
                 System.out.println(" Title: " + singleVideo.getSnippet().getTitle());
-                System.out.println(" Thumbnail: " + thumbnail.getUrl());
                 System.out.println("\n-------------------------------------------------------------\n");
             }
         }
     }
 
-	//@Override
-	//public String call(RiveScript rs, String[] args)
     public void execute()
     {
         // Read the developer key from the properties file.
@@ -123,64 +130,48 @@ public class SearchYT {//implements Subroutine{
                     + " : " + e.getMessage());
             System.exit(1);
         }
-        //youtube.search.list searchListByKeyword = youtube.search().list("the great crusade");
-
         try {
             // This object is used to make YouTube Data API requests. The last
             // argument is required, but since we don't need anything
             // initialized when the HttpRequest is initialized, we override
             // the interface and provide a no-op function.
-            youtube = new YouTube(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer(){
-            
-                @Override
-                public void initialize(HttpRequest request) throws IOException
-                {
-                    
-                }
-            });/*new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
+            youtube = new YouTube.Builder(new NetHttpTransport(), JSON_FACTORY, new HttpRequestInitializer() {
                 public void initialize(HttpRequest request) throws IOException {
-                }*/
-            //}).setApplicationName("youtube-cmdline-search").build();
-
-            // Prompt the user to enter a query term.
-            String queryTerm = getInputQuery();
+                }
+            }).setApplicationName("youtube-cmdline-search").build();
 
             // Define the API request for retrieving search results.
             YouTube.Search.List search = youtube.search().list("id,snippet");
 
             // Set your developer key from the {{ Google Cloud Console }} for
-            // non-authenticated requests. See:
-            // {{ https://cloud.google.com/console }}
+            // non-authenticated requests.
             String apiKey = properties.getProperty("apiKey").trim();
+
+            // sets the authentication key
             search.setKey(apiKey);
-            queryTerm.trim();
-            search.setQ(queryTerm);
-            search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");            
-
-            // Restrict the search results to only include videos. See:
-            // https://developers.google.com/youtube/v3/docs/search/list#type
+            // sets the query of input
+            search.setQ(query);
+            // makes it return an object with strings
+            search.setPart("snippet");
+            // Restrict the search results to only include videos
             search.setType("video");
-
-            // To increase efficiency, only retrieve the fields that the
-            // application uses.
-            search.setFields("items(id/kind,id/videoId,snippet/title,snippet/thumbnails/default/url)");
+            // sets the max results returned
             search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
 
             // Call the API and print results.
             SearchListResponse searchResponse = search.execute();
             List<SearchResult> searchResultList = searchResponse.getItems();
             if (searchResultList != null) {
-                prettyPrint(searchResultList.iterator(), queryTerm);
+                prettyPrint(searchResultList.iterator(), query);
+                this.results = searchResultList.iterator();
             }
         } catch (GoogleJsonResponseException e) {
-            System.err.println("There was a service error: " + e.getDetails().getCode() + " : "
+            System.err.println("There was a service error: " + e.getDetails().getErrors() + ":" + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
         } catch (IOException e) {
             System.err.println("There was an IO error: " + e.getCause() + " : " + e.getMessage());
         } catch (Throwable t) {
             t.printStackTrace();
         }
-
-		//return null;
 	}
 }
