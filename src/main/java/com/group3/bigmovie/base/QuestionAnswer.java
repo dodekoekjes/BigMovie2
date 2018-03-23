@@ -1,17 +1,12 @@
 package com.group3.bigmovie.base;
 
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import com.group3.bigmovie.extensions.*;
 
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
-
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 
 
 public class QuestionAnswer
