@@ -40,7 +40,7 @@ public final class Meaning
         "What rating does <movie> have?\n" +
         "What is the ratio of actors to actresses?\n" +
         "Recommend me a movie.\n" +
-        "Search [*] to search for youtube videos." +
+        "youtube [*] to search for youtube videos." +
         "```"
         ;
 }

@@ -270,7 +270,7 @@ public class QuestionAnswer
         {
             return Meaning.WHAT_IS_LOVE;
         }
-        else if (m_meaning.contains("search") || m_name.contains("search")){ //always place at the bottom of if/else if statements
+        else if (m_meaning.contains("youtube") || m_name.contains("youtube")){ //always place at the bottom of if/else if statements
             return Meaning.SEARCH_YT;
         }
 
