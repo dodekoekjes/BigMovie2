@@ -14,6 +14,8 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
+import com.group3.bigmovie.extensions.SearchYT;
 import com.rivescript.*;
 
 
@@ -26,6 +28,7 @@ public final class Bot extends ListenerAdapter
             Path currentRelativePath = Paths.get("src/main/resources/rivescript");
             String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
             System.out.println(path);
+            //rive.setSubroutine("search", new SearchYT());
             rive.loadDirectory(path);
             rive.sortReplies();
       }

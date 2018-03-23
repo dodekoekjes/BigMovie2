@@ -4,6 +4,8 @@ package com.group3.bigmovie.base;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.group3.bigmovie.extensions.SearchYT;
+
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
@@ -34,6 +36,8 @@ public class QuestionAnswer
         switch (type)
         {
         case Meaning.TEST:
+            SearchYT search = new SearchYT();
+            search.execute();
             return "I am Henk.";
 
         case Meaning.HELLO:
