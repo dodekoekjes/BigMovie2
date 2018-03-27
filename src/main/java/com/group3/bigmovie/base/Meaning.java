@@ -22,6 +22,7 @@ public final class Meaning
     public static final int HELP = 16;
     public static final int WHAT_IS = 17;
     public static final int WHAT_IS_LOVE = 18;
+    public static final int SEARCH_YT = 19;
 
     public static final String STR_HELP = 
         "```Command list:\n" +
@@ -38,7 +39,8 @@ public final class Meaning
         "What is <movie> about? / Describe <movie>\n" +
         "What rating does <movie> have?\n" +
         "What is the ratio of actors to actresses?\n" +
-        "Recommend me a movie\n" +
+        "Recommend me a movie.\n" +
+        "youtube [*] to search for youtube videos." +
         "```"
         ;
 }

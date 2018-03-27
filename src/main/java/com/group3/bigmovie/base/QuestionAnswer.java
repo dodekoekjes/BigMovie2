@@ -8,8 +8,6 @@ import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
-
 
 public class QuestionAnswer
 {
@@ -177,7 +175,9 @@ public class QuestionAnswer
             queryResult = String.join(", ", callR(q, true));
             return "IMAGE";            
             
-
+        case Meaning.SEARCH_YT:
+            return "SEARCH_YT";
+        
         default:
             return "RIVE";
         }
@@ -270,6 +270,9 @@ public class QuestionAnswer
         {
             return Meaning.WHAT_IS_LOVE;
         }
+        else if (m_meaning.contains("youtube") || m_name.contains("youtube")){ //always place at the bottom of if/else if statements
+            return Meaning.SEARCH_YT;
+        }
 
         return -1;
     }
@@ -286,8 +289,7 @@ public class QuestionAnswer
             connection = new RConnection();
 
             Path currentRelativePath = Paths.get("src/main/r/test.r");
-            s = currentRelativePath.toAbsolutePath().toString();
-            System.out.println("Current relative path is: " + s);
+            s = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
 
             connection.eval("source('" + s + "')");
             return connection.eval("meaningToQ(" + query + ", " + r + ")").asStrings();

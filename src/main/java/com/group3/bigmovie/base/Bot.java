@@ -1,12 +1,15 @@
 package com.group3.bigmovie.base;
 
 
+import com.group3.bigmovie.extensions.*;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import javax.imageio.ImageIO;
 
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -14,6 +17,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+
 import com.rivescript.*;
 
 
@@ -24,7 +28,7 @@ public final class Bot extends ListenerAdapter
       public Bot(){
             //get rivescript resources
             Path currentRelativePath = Paths.get("src/main/resources/rivescript");
-            String path = currentRelativePath.toAbsolutePath().toString();
+            String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
             System.out.println(path);
             rive.loadDirectory(path);
             rive.sortReplies();
@@ -87,15 +91,15 @@ public final class Bot extends ListenerAdapter
             }
 
             Path currentRelativePath = Paths.get("src/main/r/test.png");
-            String path = currentRelativePath.toAbsolutePath().toString();
-            
-            CommandTranslator c = new CommandTranslator(
-                  removeFirstMentions(event.getMessage().getContentDisplay()));
+            String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
+            System.out.println(path);
+            String input = removeFirstMentions(event.getMessage().getContentDisplay());
+            CommandTranslator c = new CommandTranslator(input);
             c.setMeaning();
 
             QuestionAnswer q = new QuestionAnswer(c);
             String response = q.answerQuestion();
-            
+
             if (response.equals("IMAGE"))
             {
                   try
@@ -112,6 +116,22 @@ public final class Bot extends ListenerAdapter
                   catch (IOException e)
                   {
                         e.printStackTrace();
+                  }
+            }
+            else if(response.equals("SEARCH_YT")){
+                  SearchYT search = new SearchYT();
+                  input = input.toLowerCase();
+                  input = input.replace("search", "");
+                  input = input.replace("youtube", "");
+                  event.getChannel().sendMessage("You searched for \"" + input.trim() + "\"").queue();
+                  search.setInputQuery(input);
+                  search.execute();
+                  List<String> results = search.getResults();
+                  int i = 0;
+                  for(String result : results){
+                        event.getChannel().sendMessage(result).queue();
+                        i++;
+                        System.out.println("[" + i + "] " + "URL: " + result);
                   }
             }
             else if(response.equals("RIVE")){
