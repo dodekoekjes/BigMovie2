@@ -3,14 +3,25 @@ package com.group3.bigmovie.base;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+//import java.util.logging.Logger;
 
+import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPMismatchException;
+import org.rosuda.REngine.REngineException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
+import org.slf4j.Marker;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 public class QuestionAnswer
 {
+    private final Logger LOGGER = LogManager.getLogger(this);
+
     private String m_meaning;
     private String m_name;
 
@@ -117,11 +128,13 @@ public class QuestionAnswer
             return m_name + " was written by <Writer>.";
 
         case Meaning.RECOMMEND:
+            int random = ThreadLocalRandom.current().nextInt(0, 7344821 + 1);
+
             q = 
-                "SELECT `primary_title` " +
-                "FROM `title`" +
-                "ORDER BY RAND()" +
-                "LIMIT 1";
+                "SELECT `originalTitle` " +
+                "FROM `title` " +
+                "WHERE `id` = "+random+" " +
+                "LIMIT 1;";
 
             queryResult = String.join(", ", callR(q, false));
             return "I think you would like " + queryResult + ".";
@@ -297,7 +310,33 @@ public class QuestionAnswer
             s = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
 
             connection.eval("source('" + s + "')");
-            return connection.eval("meaningToQ(" + query + ", " + r + ")").asStrings();
+
+            System.out.println();
+            //return connection.eval("meaningToQ(" + query + ", " + r + ")").asStrings(); // Gaat stuk D:
+            REXP rResponseObject;
+				try
+				{
+                    System.out.println(query);
+
+                    String stringetje = "try(eval(meaningToQ(\""+query+"\")),silent=TRUE)";
+
+					rResponseObject = connection.parseAndEval(
+                        // "try(eval(testF()),silent=TRUE)");
+                        stringetje
+                    );
+
+                        System.out.println(rResponseObject.asString());
+                    if (rResponseObject.inherits("try-error")) {
+                        LOGGER.error("R Serve Eval Exception : "+rResponseObject.asString());
+                    }
+                    return rResponseObject.asStrings();
+				}
+				catch (REngineException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            
         }
         catch (RserveException ex)
         {
@@ -306,6 +345,7 @@ public class QuestionAnswer
         catch (REXPMismatchException ex)
         {
             ex.printStackTrace();
+            System.out.println("--- REXPMismatchException ---");
         }
         finally
         {
