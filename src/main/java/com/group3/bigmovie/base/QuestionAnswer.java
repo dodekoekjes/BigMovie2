@@ -177,6 +177,8 @@ public class QuestionAnswer
             
         case Meaning.SEARCH_YT:
             return "SEARCH_YT";
+        case Meaning.BATMAN:
+            return "BATMAN";
         
         default:
             return "RIVE";
@@ -186,7 +188,7 @@ public class QuestionAnswer
     // Convert the meaning of the question to an integer.
     private int questionType()
     {
-        System.out.println(m_meaning);
+        //System.out.println(m_meaning);
 
         if (m_meaning.equalsIgnoreCase("how old"))
         {
@@ -262,7 +264,7 @@ public class QuestionAnswer
         {
             return Meaning.RECOMMEND;
         }
-        else if (m_meaning.equalsIgnoreCase("what"))
+        else if (m_meaning.equalsIgnoreCase("search"))
         {
             return Meaning.WHAT_IS;
         }
@@ -272,6 +274,9 @@ public class QuestionAnswer
         }
         else if (m_meaning.contains("youtube") || m_name.contains("youtube")){ //always place at the bottom of if/else if statements
             return Meaning.SEARCH_YT;
+        }
+        else if (m_meaning.contains("batman") || m_name.contains("batman")){
+            return Meaning.BATMAN;
         }
 
         return -1;

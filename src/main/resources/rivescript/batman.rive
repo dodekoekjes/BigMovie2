@@ -1,0 +1,57 @@
++ [*]batman[*]
+- ```I AM SUMMONED?```
+^ ```...```
+^ <set name=Bruce Wayne>
+^ <set vigilante_name=Batman>
+^ {topic=batman}```I'm Batman!```
+
+> topic batman
+
+    + kill yourself [*]
+    - ```'Batman dies horribly...'```{topic=random}
+    ^ <set name=Henk>
+    ^ <set vigilante_name=none>
+
+    + *
+    - ```Stupid Riddler with his stupid difficult riddles...```\n https://gph.is/2d2TaHq
+    - ```The Joker messed with your mind oh NO!```\n https://gph.is/15vx4QK
+    - http://gph.is/19VA4rG
+    - ```Beautifly said!``` https://gph.is/XK8RqI
+    - ```I must save Gotham!``` ```I have no time for your pitiful questions!```\n https://gph.is/1CqGAoS
+    - ```I'm Batman!```{weight=12}
+
+    + what (is your [(vigilante|hero|superhero)] name|(superhero|hero|vigilante) are you)
+    - ```I'm <get vigilante_name> ofc!```{weight=8}
+    - ```You know me as <get vigilante_name>, but you will never know my true identity!``` ```Ha!.. Ha!.. Ha!...```
+
+    + what is your (secret|true|real) (identity|name)
+    - ```My real name is <get name>.```
+
+    + [*]catwoman[*]
+    - ```<3```
+
+    + i am a villain
+    - ```What villain are you?```
+
+    + [(i|we)] [(am|are)] [the] *
+    % ```what villain are you```
+    - ```I will take you down <star>!```
+
+    + i have jason [todd][*]
+    - ```damn!... I will get you for this!```\n{topic=jason}
+    ^ pres X to Jason.
+
+
+< topic
+
+> topic jason
+    
+    + [*]release[*](jason|jason todd |todd)[*]
+    - ```Atleast you did one good deed in your corrupt life```{topic=batman}
+
+    + *
+    - ```Release Jason Todd at once!```
+    
+    + x
+    - ```JASON!!!...```
+< topic

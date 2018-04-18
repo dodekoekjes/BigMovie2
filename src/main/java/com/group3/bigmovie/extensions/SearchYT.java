@@ -24,7 +24,7 @@ import com.google.api.services.youtube.model.SearchResult;
  *
  * @author Tristan Kruijshaar
  */
-public class SearchYT {//implements Subroutine{
+public class SearchYT {
 
     /**
      * Define a global variable that identifies the name of a file that

@@ -1,0 +1,3 @@
+mysql -h 127.0.0.1 --port=3306 -u root --password
+
+LOAD DATA INFILE 'C:\\Users\\Dodek\\Documents\\school\\jaar 2\\periode 2\\projects\\BigMovie2\\database\\csv\\temp.csv' INTO TABLE temp FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;
