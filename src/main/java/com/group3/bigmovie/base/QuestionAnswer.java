@@ -2,6 +2,7 @@ package com.group3.bigmovie.base;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 //import java.util.logging.Logger;
@@ -297,10 +298,21 @@ public class QuestionAnswer
     
     private RConnection getRConnection() {
         RConnection connection = null;
+    
         try {
             connection = new RConnection();
         }
         catch(RserveException e) {
+            System.out.println("Failed to connect to Rserve");
+            System.out.println("reconnecting...");
+            try
+				{
+					Thread.sleep(200);
+				}
+				catch (InterruptedException e1)
+				{
+					e1.printStackTrace();
+				}
             return getRConnection();
         }
         
@@ -318,6 +330,12 @@ public class QuestionAnswer
 
         try
         {
+            try {
+            Process p = Runtime.getRuntime().exec("Rscript ./src/main/r/main.r");
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
             connection = getRConnection();
 
             Path currentRelativePath = Paths.get("src"+File.separator+"main"+File.separator+"r");
@@ -359,10 +377,7 @@ public class QuestionAnswer
             ex.printStackTrace();
             System.out.println("--- REXPMismatchException ---");
         }
-        finally
-        {
-            connection.close();
-        }
+        connection.close();
 
         return new String[]
         { "<INVALID>" };

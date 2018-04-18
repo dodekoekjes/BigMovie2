@@ -24,18 +24,11 @@ import com.rivescript.*;
 public final class Bot extends ListenerAdapter
 {
       RiveScript rive = new RiveScript(Config.utf8());
-      Process p;
 
       public Bot(){
             //get rivescript resources
             Path currentRelativePath = Paths.get("src"+File.separator+"main"+File.separator+"resources"+File.separator+"rivescript");
             String path = currentRelativePath.toAbsolutePath().toString();
-            try {
-                  p = Runtime.getRuntime().exec("Rscript ./src/main/r/main.r");
-            }
-            catch(IOException e){
-                  e.printStackTrace();
-            }
             System.out.println(path);
             rive.loadDirectory(path);
             rive.sortReplies();
