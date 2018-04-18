@@ -1,6 +1,7 @@
 package com.group3.bigmovie.base;
 
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 //import java.util.logging.Logger;
@@ -10,7 +11,6 @@ import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REngineException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
-import org.slf4j.Marker;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -294,22 +294,35 @@ public class QuestionAnswer
 
         return -1;
     }
+    
+    private RConnection getRConnection() {
+        RConnection connection = null;
+        try {
+            connection = new RConnection();
+        }
+        catch(RserveException e) {
+            return getRConnection();
+        }
+        
+        return connection;
+    }
 
     // Returns the R query result(s).
     private String[] callR(String query, boolean r)
     {
+        
         RConnection connection = null;
+        //connection = getRConnection();
 
         String s = "";
 
         try
         {
-            connection = new RConnection();
+            connection = getRConnection();
 
-            Path currentRelativePath = Paths.get("src/main/r/test.r");
-            s = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
-
-            connection.eval("source('" + s + "')");
+            Path currentRelativePath = Paths.get("src"+File.separator+"main"+File.separator+"r");
+            s = currentRelativePath.toAbsolutePath().toString();
+            connection.eval("source('" + s + "test.r')");
 
             System.out.println();
             //return connection.eval("meaningToQ(" + query + ", " + r + ")").asStrings(); // Gaat stuk D:
@@ -332,13 +345,12 @@ public class QuestionAnswer
                     return rResponseObject.asStrings();
 				}
 				catch (REngineException e)
-				{
-					// TODO Auto-generated catch block
+				{ 
 					e.printStackTrace();
 				}
             
         }
-        catch (RserveException ex)
+        catch ( RserveException ex)
         {
             ex.printStackTrace();
         }
