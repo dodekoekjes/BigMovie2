@@ -26,6 +26,23 @@
 
    <dependencies>
       <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jcl -->
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j.adapters/log4j-jcl -->
+      <dependency>
+            <groupId>org.apache.logging.log4j.adapters</groupId>
+            <artifactId>log4j-jcl</artifactId>
+            <version>2.0-beta4</version>
+            <scope>test</scope>
+      </dependency>
+
+
+
+      <dependency>
          <groupId>net.dv8tion</groupId>
          <artifactId>JDA</artifactId>
          <version>3.5.0_327</version>

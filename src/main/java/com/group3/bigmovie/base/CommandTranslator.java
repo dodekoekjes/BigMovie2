@@ -32,7 +32,7 @@ public class CommandTranslator
         // Words that are not important to the interpretation of the question.
         m_garbageWords = new String[]
         {
-            "is", "in", "has", "have", "of", "date", "the", "me", "a", "was", "does"
+            "is", "are", "be", "in", "has", "have", "of", "date", "the", "me", "a", "was", "does"
         };
     }
 

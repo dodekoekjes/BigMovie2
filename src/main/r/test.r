@@ -19,23 +19,46 @@ myChart = function(a, b){
     return("IMAGE")
 }
 
-meaningToQ = function(q,r) {
-    mydb <- dbConnect(MySQL(), user="u334588916_baap", password="wz;J^MO66uVn|IV3hd", dbname="u334588916_bmov", host="sql40.main-hosting.eu")
+meaningToQ = function(q) {
+    mydb <- dbConnect(MySQL(), user='root', password='', dbname='imdb', host='127.0.0.1', port=3306)
 
     query = dbSendQuery(mydb, q)
-    if(r==FALSE){
-        data = fetch(query, n=-1)
-    }else{
-        result = fetch(query,n=-1)
-        x = result[1,1]
-        y = result[2,1]
-        data = myChart(x,y)
-    }
+    # query = dbSendQuery(mydb, statement = paste(
+    #     "SELECT *",
+    #     "FROM name",
+    #     "WHERE id < 5"
+    # ))
+
+
+
+    data = fetch(query, n=-1)
+    # if(r==FALSE){
+    #     data = fetch(query, n=-1)
+    # }else{
+    #     result = fetch(query,n=-1)
+    #     x = result[1,1]
+    #     y = result[2,1]
+    #     data = myChart(x,y)
+    # }
     
 
     # dbClearResult(data)
     dbDisconnect(mydb)
-    return(data)
+    return(toString(data))
 }
 #meaningToQ("SELECT id FROM `title_type`",TRUE)
 
+testF = function() {
+    mydb <- dbConnect(MySQL(), user='root', password='', dbname='imdb', host='127.0.0.1', port=3306)
+
+    # query = dbSendQuery(mydb, q)
+    query = dbSendQuery(mydb, statement = paste(
+        "SELECT *",
+        "FROM name",
+        "WHERE id < 5"
+    ))
+
+    data = fetch(query, n=-1)
+
+    return(toString(data))
+}
