@@ -55,15 +55,15 @@ public class QuestionAnswer
             return Meaning.STR_HELP;
 
         case Meaning.AGE:
-            q = "SELECT `birth_year` FROM `name` WHERE `primary_name` = " + m_name;
+            q = "SELECT `birthYear` FROM `name` WHERE `primaryName` = " + m_name;
 
             queryResult = String.join(", ", callR(q, false));
             return m_name + " is " + queryResult + " years old.";
 
         case Meaning.AMOUNT_DIRECTED:
-            q = "SELECT COUNT(`title`.`primary_title`) as `movies_directed`, `title`.`primary_title` " +
+            q = "SELECT COUNT(`title`.`primaryTitle`) as `movies_directed`, `title`.`primaryTitle` " +
                 "FROM `name` " +
-                "WHERE `primary_name` = " + m_name +
+                "WHERE `primaryName` = " + m_name +
                 "INNER JOIN `name_profession` as `np`" +
                 "ON `name`.`id` = `np`.`name_id` AND `np`.`profession` = 'director' " +
                 "INNER JOIN `name_known_for_titles` as `nkft`" +
@@ -75,9 +75,9 @@ public class QuestionAnswer
             return m_name + " has directed " + queryResult + " movies and/or series.";
 
         case Meaning.AMOUNT_PLAYED:
-            q = "SELECT COUNT(`title`.`primary_title`) as `played_in`, `title`.`primary_title` " +
+            q = "SELECT COUNT(`title`.`primaryTitle`) as `played_in`, `title`.`primaryTitle` " +
                 "FROM `name` " +
-                "WHERE `primary_name` = " + m_name +
+                "WHERE `primaryName` = " + m_name +
                 "INNER JOIN `name_profession` as `np`" +
                 "ON `name`.`id` = `np`.`name_id` AND `np`.`profession` = 'actor' OR `np`.`profession` = `actress`" +
                 "INNER JOIN `name_known_for_titles` as `nkft`" +
@@ -89,18 +89,18 @@ public class QuestionAnswer
             return m_name + " has played in " + queryResult + " movies and/or series.";
 
         case Meaning.WHEN_RELEASED:
-            q = "SELECT `start_year` " +
+            q = "SELECT `startYear` " +
                 "FROM `title` " +
-                "WHERE `primary_title` = " + m_name + " OR `original_title` = " + m_name;
+                "WHERE `primaryTitle` = " + m_name + " OR `originalTitle` = " + m_name;
 
             queryResult = String.join(", ", callR(q, false));
             return m_name + " was released <Date>.";
 
         case Meaning.WHO_PLAYED:
-            q = "SELECT `name`.`primary_name`, `np`.`profession` " +
+            q = "SELECT `name`.`primaryName`, `np`.`profession` " +
                 "FROM `title`" +
-                "WHERE `primary_title` = " + m_name +
-                "OR `original_title` = " + m_name +
+                "WHERE `primaryTitle` = " + m_name +
+                "OR `originalTitle` = " + m_name +
                 "INNER JOIN `name_known_for_titles` as `nkft`" +
                 "ON `nkft`.`title_id` = `title`.`id`" +
                 "INNER JOIN `name_profession` as `np`" +
@@ -112,10 +112,10 @@ public class QuestionAnswer
             return queryResult + " played in " + m_name + ".";
 
         case Meaning.WHO_WROTE:
-            q = "SELECT `name`.`primary_name` " +
+            q = "SELECT `name`.`primaryName` " +
                 "FROM `title`" +
-                "WHERE `primary_title` = " + m_name +
-                "OR `original_title` = " + m_name +
+                "WHERE `primaryTitle` = " + m_name +
+                "OR `originalTitle` = " + m_name +
                 "INNER JOIN `name_known_for_titles` as `nkft`" +
                 "ON `nkft`.`title_id` = `title`.`id`" +
                 "INNER JOIN `name_profession` as `np`" +
