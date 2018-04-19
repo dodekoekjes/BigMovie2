@@ -23,6 +23,7 @@ public final class Meaning
     public static final int WHAT_IS = 17;
     public static final int WHAT_IS_LOVE = 18;
     public static final int SEARCH_YT = 19;
+    public static final int BATMAN = 20;
 
     public static final String STR_HELP = 
         "```Command list:\n" +

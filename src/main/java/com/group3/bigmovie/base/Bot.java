@@ -27,8 +27,8 @@ public final class Bot extends ListenerAdapter
 
       public Bot(){
             //get rivescript resources
-            Path currentRelativePath = Paths.get("src/main/resources/rivescript");
-            String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
+            Path currentRelativePath = Paths.get("src"+File.separator+"main"+File.separator+"resources"+File.separator+"rivescript");
+            String path = currentRelativePath.toAbsolutePath().toString();
             System.out.println(path);
             rive.loadDirectory(path);
             rive.sortReplies();
@@ -92,7 +92,6 @@ public final class Bot extends ListenerAdapter
 
             Path currentRelativePath = Paths.get("src/main/r/test.png");
             String path = currentRelativePath.toAbsolutePath().toString().replace('\\', '/');
-            System.out.println(path);
             String input = removeFirstMentions(event.getMessage().getContentDisplay());
             CommandTranslator c = new CommandTranslator(input);
             c.setMeaning();
@@ -110,7 +109,7 @@ public final class Bot extends ListenerAdapter
                         baos.flush();
                         byte[] imageInByte = baos.toByteArray();
                         baos.close();
-
+                        System.out.println("[IMAGE] " + response);
                         event.getChannel().sendFile(imageInByte, "Java, why....png").queue();
                   }
                   catch (IOException e)
@@ -128,6 +127,7 @@ public final class Bot extends ListenerAdapter
                   search.execute();
                   List<String> results = search.getResults();
                   int i = 0;
+                  System.out.println("[YOUTUBE]");
                   for(String result : results){
                         event.getChannel().sendMessage(result).queue();
                         i++;
@@ -136,10 +136,20 @@ public final class Bot extends ListenerAdapter
             }
             else if(response.equals("RIVE")){
                   response = rive.reply(event.getChannel().getId(), removeFirstMentions(event.getMessage().getContentDisplay()));
+                  System.out.println("[RIVE] " + response);
+                  event.getChannel().sendMessage(response).queue();
+            }
+            else if(response.equals("BATMAN")){
+                  response = rive.reply(event.getChannel().getId(), removeFirstMentions(event.getMessage().getContentDisplay()));
+                  System.out.println("[BATMAN] " + response);
+                  event.getGuild().getController().setNickname(
+                        event.getGuild().getMemberById(event.getJDA().getSelfUser().getIdLong()), "BATMAN");
+                  System.out.println(event.getGuild().getMemberById(event.getJDA().getSelfUser().getIdLong()).getEffectiveName());
                   event.getChannel().sendMessage(response).queue();
             }
             else
             {
+                  System.out.println("[NORMAL] " + response);
                   event.getChannel().sendMessage(response).queue();
             }
 

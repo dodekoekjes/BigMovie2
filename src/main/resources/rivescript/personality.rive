@@ -1,4 +1,10 @@
++ what is your name
+- My name is <bot name>.
 
++ what (is your (vigilante|hero|superhero) name|(superhero|hero|vigilante) are you)
+* <get vigilante_name> == none => I don't have such a name.
+* <get vigilante_name> == undefined => I don't have such a name.
+- I'm <get vigilante_name>
 
 + (braadworst|woord|dagelijks|)
 - je test heeft gewerkt 1

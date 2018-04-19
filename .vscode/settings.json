@@ -1,3 +1,5 @@
 {
-"java.configuration.updateBuildConfiguration": "automatic"
+"java.configuration.updateBuildConfiguration": "automatic",
+"r.lintr.enabled": false,
+// "r.rterm.windows": "C:\\Program Files\\R\\R-3.4.4\\bin\\x64\\R.exe"
 }
